@@ -1,0 +1,3 @@
+# Improve: secure sshd + add entrypoint and multi-node docker-compose example
+
+This PR improves the SSHD setup for the ansible-node project: replaces the Dockerfile with a more secure implementation (consolidated apt update/install, cleaned caches, disabled root password login), adds an entrypoint to inject authorized_keys at runtime and ensure host keys, adds a docker-compose example to spin up a control node and multiple managed nodes, and updates the README. HEALTHCHECK was added. No reviewers assigned.

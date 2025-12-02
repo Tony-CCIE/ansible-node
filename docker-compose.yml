@@ -1,0 +1,14 @@
+version: '3'
+services:
+  app:
+    build: .
+    ports:
+      - "22:22"
+    healthcheck:
+      test: ["CMD", "whoami"]
+      interval: 30s
+      timeout: 10s
+      retries: 2
+    environment:
+      - SSH_KEY=${SSH_KEY}
+      - NODE_ENV=production

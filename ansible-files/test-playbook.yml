@@ -1,0 +1,11 @@
+---
+- name: 测试 Ansible 环境
+  hosts: nodes
+  tasks:
+    - name: 检查 Python 版本
+      command: python3 --version
+      register: python_version
+      
+    - name: 显示 Python 版本
+      debug:
+        var: python_version.stdout

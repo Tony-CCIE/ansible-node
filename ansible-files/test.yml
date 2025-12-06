@@ -1,0 +1,23 @@
+---
+- name: Test Playbook
+  hosts: node1
+  tasks:
+    - name: Install packages
+      apt:
+        name:
+          - nginx
+          - curl
+          - htop
+        state: present
+        update_cache: yes
+    
+    - name: Start nginx
+      shell: service nginx start
+    
+    - name: Check nginx status
+      command: service nginx status
+      register: nginx_status
+    
+    - name: Display status
+      debug:
+        var: nginx_status.stdout_lines

@@ -1,14 +1,51 @@
-version: '3'
+version: '3.8'
+
 services:
-  app:
-    build: .
+  control:
+    image: ubuntu:22.04
+    container_name: control
+    hostname: control
+    stdin_open: true  # docker run -i
+    tty: true        # docker run -t
+    command: /bin/bash
     ports:
-      - "22:22"
-    healthcheck:
-      test: ["CMD", "whoami"]
-      interval: 30s
-      timeout: 10s
-      retries: 2
-    environment:
-      - SSH_KEY=${SSH_KEY}
-      - NODE_ENV=production
+      - "2222:22"
+    volumes:
+      - ./ansible-files:/root/ansible-files
+      - ./scripts:/root/scripts
+    networks:
+      ansible-net:
+        ipv4_address: 172.20.0.10
+
+  node1:
+    image: ubuntu:22.04
+    container_name: node1
+    hostname: node1
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    ports:
+      - "2201:22"
+    networks:
+      ansible-net:
+        ipv4_address: 172.20.0.11
+
+  node2:
+    image: ubuntu:22.04
+    container_name: node2
+    hostname: node2
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+    ports:
+      - "2202:22"
+    networks:
+      ansible-net:
+        ipv4_address: 172.20.0.12
+
+networks:
+  ansible-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
